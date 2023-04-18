@@ -63,18 +63,18 @@ void loop() {
   distance_cm = 0.017 * duration_us;
 
   // print the value to Serial Monitor
-  Serial.print("distance: ");
+  Serial.println("distance: ");
   Serial.print(distance_cm);
   Serial.println(" cm");
   if (distance_cm < 120) 
   {
-  Serial.print("Fult plass");
+  Serial.println("Fult plass");
   setColor(0, 255, 255);
   } 
   else 
   {
-  Serial.print("Det er plass");
+  Serial.println("Det er plass");
   setColor(0, 0, 255);
   }
-  delay(500);
+  delay(1000);
 }
