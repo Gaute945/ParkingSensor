@@ -4,13 +4,12 @@
 const char* ssid     = "theoffice";         // The SSID (name) of the Wi-Fi network you want to connect to
 const char* password = "tronderbest";     // The password of the Wi-Fi network
 
-int trigPin = 12;    // TRIG pin
-int echoPin = 14;    // ECHO pin
-float duration_us, distance_cm;
-
-const int PIN_RED   = 16;
-const int PIN_GREEN = 5;
-const int PIN_BLUE  = 4;
+  int trigPin = 12;    // TRIG pin
+  int echoPin = 14;    // ECHO pin
+  float duration_us, distance_cm;
+  const int PIN_RED   = 16;
+  const int PIN_GREEN = 5;
+  const int PIN_BLUE  = 4;
 
 void setColor(int R, int G, int B) {
   analogWrite(PIN_RED,   R);
@@ -38,8 +37,6 @@ void setup() {
   Serial.print("IP address:\t");
   Serial.println(WiFi.localIP());         // Send the IP address of the ESP8266 to the computer
 
-  // begin serial port
-  Serial.begin (9600);
   pinMode(PIN_RED,   OUTPUT);
   pinMode(PIN_GREEN, OUTPUT);
   pinMode(PIN_BLUE,  OUTPUT);
