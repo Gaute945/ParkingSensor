@@ -1,10 +1,10 @@
 #include <Arduino.h>
 
-void setup() {
-  int trigPin = 12;    // TRIG pin
-  int echoPin = 14;    // ECHO pin
+int trigPin = 12;    // TRIG pin
+int echoPin = 14;    // ECHO pin
+float duration_us, distance_cm;
 
-  float duration_us, distance_cm;
+void setup() {
   // begin serial port
   Serial.begin (9600);
 
