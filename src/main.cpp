@@ -17,19 +17,6 @@ void setColor(int R, int G, int B) {
   analogWrite(PIN_BLUE,  B);
 }
 
-  int trigPin = 12;    // TRIG pin
-  int echoPin = 14;    // ECHO pin
-  float duration_us, distance_cm;
-  const int PIN_RED   = 16;
-  const int PIN_GREEN = 5;
-  const int PIN_BLUE  = 4;
-
-void setColor(int R, int G, int B) {
-  analogWrite(PIN_RED,   R);
-  analogWrite(PIN_GREEN, G);
-  analogWrite(PIN_BLUE,  B);
-}
-
 void setup() {
   Serial.begin(9600);         // Start the Serial communication to send messages to the computer
   delay(10);
