@@ -1,8 +1,13 @@
 #include <Arduino.h>
-#include <ESP8266WiFi.h>        // Include the Wi-Fi library
+#include "ESP8266WiFi.h"
+#include "ESP8266HTTPClient.h"
+#include <WiFiClient.h>
+#include <ArduinoJson.h>
 
 const char* ssid     = "theoffice";         // The SSID (name) of the Wi-Fi network you want to connect to
 const char* password = "tronderbest";     // The password of the Wi-Fi network
+HTTPClient http;
+WiFiClient wifiClient;
 int trigPin = 12;    // TRIG pin
 int echoPin = 14;    // ECHO pin
 float duration_us, distance_cm;
@@ -10,19 +15,6 @@ float duration_us, distance_cm;
 const int PIN_RED   = 16;
 const int PIN_GREEN = 5;
 const int PIN_BLUE  = 4;
-
-void setColor(int R, int G, int B) {
-  analogWrite(PIN_RED,   R);
-  analogWrite(PIN_GREEN, G);
-  analogWrite(PIN_BLUE,  B);
-}
-
-  int trigPin = 12;    // TRIG pin
-  int echoPin = 14;    // ECHO pin
-  float duration_us, distance_cm;
-  const int PIN_RED   = 16;
-  const int PIN_GREEN = 5;
-  const int PIN_BLUE  = 4;
 
 void setColor(int R, int G, int B) {
   analogWrite(PIN_RED,   R);
@@ -60,7 +52,7 @@ void setup() {
   pinMode(echoPin, INPUT);
 }
 
-void loop() {
+float getSensorData() {
   // generate 10-microsecond pulse to TRIG pin
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
@@ -70,21 +62,46 @@ void loop() {
   duration_us = pulseIn(echoPin, HIGH);
 
   // calculate the distance
-  distance_cm = 0.017 * duration_us;
+  return 0.017 * duration_us;
+}
+
+void loop() {
+  const float distance_cm = getSensorData();
+ 
+
 
   // print the value to Serial Monitor
-  Serial.println("distance: ");
+  Serial.print("distance: ");
   Serial.print(distance_cm);
   Serial.println(" cm");
-  if (distance_cm < 120) 
+
+  if (distance_cm < 220) 
   {
-  Serial.println("Fult plass");
-  setColor(0, 255, 255);
+    Serial.println("Fult plass");
+    setColor(0, 255, 255);
   } 
   else 
   {
-  Serial.println("Det er plass");
-  setColor(0, 0, 255);
+    Serial.println("Det er plass");
+    setColor(0, 0, 255);
+  }
+   if (WiFi.status() == WL_CONNECTED) {
+    http.begin(wifiClient, "http://192.168.2.233:8000/sensor");
+    http.addHeader("Content-Type", "application/json");
+
+    // Create a JSON object with the sensor ID and distance value
+    StaticJsonDocument<200> json;
+    json["sensorId"] = 1;
+    json["distanceCm"] = distance_cm;
+
+    // Serialize the JSON object and send it as the request body
+    String requestBody;
+    serializeJson(json, requestBody);
+    int httpCode = http.POST(requestBody);
+    String payload = http.getString();
+    Serial.println(httpCode);
+    Serial.println(payload);
+    http.end();
   }
   delay(1000);
 }
