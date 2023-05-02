@@ -91,7 +91,7 @@ void loop() {
 
     // Create a JSON object with the sensor ID and distance value
     StaticJsonDocument<200> json;
-    json["sensorId"] = 1;
+    json["sensorId"] = 2;
     json["distanceCm"] = distance_cm;
 
     // Serialize the JSON object and send it as the request body
