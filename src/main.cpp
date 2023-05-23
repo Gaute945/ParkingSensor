@@ -19,7 +19,7 @@ const int PIN_BLUE = 4;
 void setColor(int R, int G, int B)
 {
   analogWrite(PIN_RED, R);
-  analogWrite(PIN_GREEN, G);
+  analogWrite(PIN_GREEN, G);  
   analogWrite(PIN_BLUE, B);
 }
 
@@ -94,7 +94,6 @@ void loop()
   {
     http.begin(wifiClient, "http://192.168.2.233:8000/sensor");
     http.addHeader("Content-Type", "application/json");
-
     // Create a JSON object with the sensor ID and distance value
     StaticJsonDocument<200> json;
     json["sensorId"] = 1;
