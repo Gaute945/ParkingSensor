@@ -4,17 +4,17 @@
 #include <WiFiClient.h>
 #include <ArduinoJson.h>
 
-const char *ssid = "theoffice";       // The SSID (name) of the Wi-Fi network you want to connect to
-const char *password = "tronderbest"; // The password of the Wi-Fi network
+const char *ssid = "grov";       // The SSID (name) of the Wi-Fi network you want to connect to
+const char *password = "groovygroovy"; // The password of the Wi-Fi network
 HTTPClient http;
 WiFiClient wifiClient;
-int trigPin = 12; // TRIG pin
-int echoPin = 14; // ECHO pin
+int trigPin = 16; // TRIG pin
+int echoPin = 5; // ECHO pin
 float duration_us, distance_cm;
 
-const int PIN_RED = 16;
-const int PIN_GREEN = 5;
-const int PIN_BLUE = 4;
+const int PIN_RED = 14;
+const int PIN_GREEN = 2;
+const int PIN_BLUE = 0;
 
 void setColor(int R, int G, int B)
 {
@@ -80,7 +80,7 @@ void loop()
   Serial.print(distance_cm);
   Serial.println(" cm");
 
-  if (distance_cm < 220)
+  if (distance_cm < 100)
   {
     Serial.println("Fult plass");
     setColor(0, 255, 255);
